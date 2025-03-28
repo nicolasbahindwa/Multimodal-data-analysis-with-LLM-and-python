@@ -1,0 +1,88 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python Environment
+venv/
+env/
+.env
+.venv
+ENV/
+
+# Python Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE Specific Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Data Files (customize as needed)
+*.csv
+*.xlsx
+*.sqlite
+*.db
+!sample_data.csv  # Exception if you want to track a specific data file
+
+# Machine Learning Model Files
+*.pkl
+*.model
+*.h5
+*.hdf5
+
+# Large Data Files
+*.zip
+*.tar
+*.gz
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Dependency Directories
+lib/
+libs/
+include/
+bin/
+
+# Virtual Environment Markers
+pip-selfcheck.json
+.Python
+
+# Testing and Coverage
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+
+# Miscellaneous
+.tmp/
+temp/
+
+# Large Output Files
+results/
+output/
+
+# Specific to your project (add as needed)
+multimodal_data/
+artifacts/
