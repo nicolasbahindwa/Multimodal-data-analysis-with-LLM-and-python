@@ -7,14 +7,12 @@ from tqdm import tqdm
 
 load_dotenv()
 
-
-# Get API key and file path from environment variables
 ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
-CSV_FILE_PATH = os.getenv('CSV_FILE_PATH')
-
+ 
+ 
 client = Anthropic(api_key=ANTHROPIC_API_KEY)
-file_path = CSV_FILE_PATH
-print(file_path)
+file_path = './text/reviews.csv'
+
  
 
 def analyze_sentiment(reviews):
