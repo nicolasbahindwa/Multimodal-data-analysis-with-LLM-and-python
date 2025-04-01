@@ -17,3 +17,10 @@ anthropic
 python-dotenv==1.0.1  # Environment variable management
 tqdm==4.66.2          # Progress bars
 
+
+langchain-mcp-adapters
+langgraph
+langchain-anthropic
+langchain-mcp
+mcp==1.6.0
+tavily-python
