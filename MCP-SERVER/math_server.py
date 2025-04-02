@@ -3,7 +3,7 @@ import math
 from typing import List
 
 # MCP server instance name "Math"
-mcp = FastMCP("Math")
+mcp = FastMCP("math_server")
 
 # Register available math operations
 @mcp.tool()
