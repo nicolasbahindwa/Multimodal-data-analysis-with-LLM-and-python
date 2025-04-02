@@ -89,12 +89,100 @@ def extract_tool_messages(messages):
     
     return tools_used, tool_messages
 
-async def server():
+# async def server():
+#     async with MultiServerMCPClient() as client:
+#         await client.connect_to_server('math server', command='python', args=['./MCP-SERVER/math_server.py'])
+#         await client.connect_to_server('web search', command='python', args=['./MCP-SERVER/tavily_server.py'])
+        
+#         agent = create_react_agent(model, client.get_tools())
+        
+#         print("type exit to quit")
+#         while True:
+#             user_query = input("\n enter your question: ")
+#             if user_query.lower() in ['exit', 'quit', 'bye']:
+#                 print('Exiting the MCP server')
+#                 break
+            
+#             print("\n" + "="*50)
+#             print(f"PROCESSING QUERY: {user_query}")
+#             print("\n" + "="*50)
+            
+#             response = await agent.ainvoke({'messages': user_query})
+#             messages = response['messages']
+            
+#             print("---------------------- TOOL CALLS ----------------------")
+#             tools_used, tool_messages = extract_tool_messages(messages)
+#             for tool in tools_used:
+#                 pprint(tool)
+                
+#             print("\n---------------------- TOOL MESSAGES ----------------------")
+#             for tool_message in tool_messages:
+#                 pprint(tool_message)
+
+#             print("\n---------------------- AI MESSAGES ----------------------")
+#             ai_messages = extract_ai_messages(messages)
+#             for ai_message in ai_messages:
+#                 pprint(ai_message)
+
+
+async def finalize_answer(model, messages, user_query):
+    """
+    Process the agent's raw output and generate a well-structured final answer.
+    
+    Args:
+        model: The LLM model to use for refinement
+        messages: The list of messages from the agent's response
+        user_query: The original user question
+        
+    Returns:
+        A refined, well-structured answer
+    """
+    # Extract relevant tool messages and outputs
+    tools_used, tool_messages = extract_tool_messages(messages)
+    
+    # Construct a prompt for the LLM to refine the answer
+    refinement_prompt = f"""
+    You are an expert assistant that provides clear, concise, and well-structured answers.
+    
+    ORIGINAL QUESTION: {user_query}
+    
+    TOOLS USED:
+    {tools_used}
+    
+    TOOL OUTPUTS: 
+    {tool_messages}
+    
+    Please provide a final, refined answer to the original question based on the tool outputs. 
+    Your answer should:
+    1. Be direct and address the question completely
+    2. Include relevant calculations or data from the tool outputs
+    3. Be well-structured and easy to understand
+    4. Provide any necessary context or explanation
+    5. Be conversational in tone while remaining informative
+    
+    FINAL ANSWER:
+    """
+    
+    # Call the model to generate the refined answer
+    refined_response = await model.ainvoke([HumanMessage(content=refinement_prompt)])
+    
+    # Extract the content from the model's response
+    if isinstance(refined_response.content, list):
+        refined_answer = " ".join([item.get('text', '') for item in refined_response.content if isinstance(item, dict) and 'text' in item])
+    else:
+        refined_answer = refined_response.content
+        
+    return refined_answer
+
+
+# Updated server function that incorporates the finalize_answer function
+async def server_with_refinement():
     async with MultiServerMCPClient() as client:
         await client.connect_to_server('math server', command='python', args=['./MCP-SERVER/math_server.py'])
         await client.connect_to_server('web search', command='python', args=['./MCP-SERVER/tavily_server.py'])
         
-        agent = create_react_agent(model, client.get_tools())
+        llm = call_model()
+        agent = create_react_agent(llm, client.get_tools())
         
         print("type exit to quit")
         while True:
@@ -107,26 +195,36 @@ async def server():
             print(f"PROCESSING QUERY: {user_query}")
             print("\n" + "="*50)
             
+            # Get the raw agent response
             response = await agent.ainvoke({'messages': user_query})
             messages = response['messages']
             
-            print("---------------------- TOOL CALLS ----------------------")
-            tools_used, tool_messages = extract_tool_messages(messages)
-            for tool in tools_used:
-                pprint(tool)
+            # print("---------------------- TOOL CALLS ----------------------")
+            # tools_used, tool_messages = extract_tool_messages(messages)
+            # for tool in tools_used:
+            #     pprint(tool)
                 
-            print("\n---------------------- TOOL MESSAGES ----------------------")
-            for tool_message in tool_messages:
-                pprint(tool_message)
+            # print("\n---------------------- TOOL MESSAGES ----------------------")
+            # for tool_message in tool_messages:
+            #     pprint(tool_message)
 
-            print("\n---------------------- AI MESSAGES ----------------------")
-            ai_messages = extract_ai_messages(messages)
-            for ai_message in ai_messages:
-                pprint(ai_message)
-
-
+            # print("\n---------------------- AI MESSAGES ----------------------")
+            # ai_messages = extract_ai_messages(messages)
+            # for ai_message in ai_messages:
+            #     pprint(ai_message)
+            
+            # Generate the refined final answer
+            print("\n---------------------- REFINED FINAL ANSWER ----------------------")
+            final_answer = await finalize_answer(llm, messages, user_query)
+            print(final_answer)
 
 
 if __name__ == "__main__":
     import asyncio
-    asyncio.run(server())
+    asyncio.run(server_with_refinement())
+
+
+
+# if __name__ == "__main__":
+#     import asyncio
+#     asyncio.run(server())
