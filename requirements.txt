@@ -17,6 +17,12 @@ anthropic
 python-dotenv==1.0.1  # Environment variable management
 tqdm==4.66.2          # Progress bars
 
+# data extractor
+SQLAlchemy==2.0.40
+textract==1.6.3
+google-api-python-client
+google-auth
+
 
 langchain-mcp-adapters
 langgraph

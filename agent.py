@@ -89,41 +89,6 @@ def extract_tool_messages(messages):
     
     return tools_used, tool_messages
 
-# async def server():
-#     async with MultiServerMCPClient() as client:
-#         await client.connect_to_server('math server', command='python', args=['./MCP-SERVER/math_server.py'])
-#         await client.connect_to_server('web search', command='python', args=['./MCP-SERVER/tavily_server.py'])
-        
-#         agent = create_react_agent(model, client.get_tools())
-        
-#         print("type exit to quit")
-#         while True:
-#             user_query = input("\n enter your question: ")
-#             if user_query.lower() in ['exit', 'quit', 'bye']:
-#                 print('Exiting the MCP server')
-#                 break
-            
-#             print("\n" + "="*50)
-#             print(f"PROCESSING QUERY: {user_query}")
-#             print("\n" + "="*50)
-            
-#             response = await agent.ainvoke({'messages': user_query})
-#             messages = response['messages']
-            
-#             print("---------------------- TOOL CALLS ----------------------")
-#             tools_used, tool_messages = extract_tool_messages(messages)
-#             for tool in tools_used:
-#                 pprint(tool)
-                
-#             print("\n---------------------- TOOL MESSAGES ----------------------")
-#             for tool_message in tool_messages:
-#                 pprint(tool_message)
-
-#             print("\n---------------------- AI MESSAGES ----------------------")
-#             ai_messages = extract_ai_messages(messages)
-#             for ai_message in ai_messages:
-#                 pprint(ai_message)
-
 
 async def finalize_answer(model, messages, user_query):
     """
@@ -199,10 +164,10 @@ async def server_with_refinement():
             response = await agent.ainvoke({'messages': user_query})
             messages = response['messages']
             
-            # print("---------------------- TOOL CALLS ----------------------")
-            # tools_used, tool_messages = extract_tool_messages(messages)
-            # for tool in tools_used:
-            #     pprint(tool)
+            print("---------------------- TOOL CALLS ----------------------")
+            tools_used, tool_messages = extract_tool_messages(messages)
+            for tool in tools_used:
+                pprint(tool)
                 
             # print("\n---------------------- TOOL MESSAGES ----------------------")
             # for tool_message in tool_messages:
