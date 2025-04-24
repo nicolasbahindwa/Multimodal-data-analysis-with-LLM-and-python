@@ -65,6 +65,10 @@ libs/
 include/
 bin/
 
+**/service_account.json
+**/auth/service_account.json
+/auth/service_account.json
+
 # Virtual Environment Markers
 pip-selfcheck.json
 .Python
