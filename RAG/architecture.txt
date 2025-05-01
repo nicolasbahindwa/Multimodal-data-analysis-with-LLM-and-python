@@ -1,0 +1,80 @@
+project_root/
+├── .env
+├── README.md
+├── requirements.txt
+├── pyproject.toml
+├── setup.py
+├── main.py
+├── src/
+│   ├── __init__.py
+│   ├── pipeline.py
+│   ├── connectors/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── google_drive.py
+│   │   ├── local_file.py
+│   │   └── sql.py
+│   ├── readers/
+│   │   ├── __init__.py
+│   │   ├── base_reader.py
+│   │   ├── txt_reader.py
+│   │   ├── pdf_reader.py
+│   │   ├── docx_reader.py
+│   │   ├── doc_reader.py
+│   │   ├── json_reader.py
+│   │   ├── csv_reader.py
+│   │   ├── excel_reader.py
+│   │   ├── md_reader.py
+│   │   ├── html_reader.py
+│   │   ├── xml_reader.py
+│   │   ├── pptx_reader.py
+│   │   ├── rtf_reader.py
+│   │   ├── log_reader.py
+│   │   └── factory.py
+│   ├── processors/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── validator.py
+│   │   └── transformer.py
+│   ├── loaders/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   └── target_loader.py
+│   ├── chunking/
+│   │   ├── __init__.py
+│   │   ├── base_chunker.py
+│   │   ├── simple_chunker.py
+│   │   └── splitter_factory.py
+│   ├── embeddings/
+│   │   ├── __init__.py
+│   │   ├── base_embedder.py
+│   │   ├── langchain_embedder.py
+│   │   └── embedder_factory.py
+│   ├── config/
+│   │   ├── __init__.py
+│   │   └── settings.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── logger.py
+│       ├── error_handler.py
+│       └── state_manager.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_connectors/
+│   ├── test_processors/
+│   ├── test_chunking/
+│   ├── test_embeddings/
+│   └── test_loaders/
+├── data/
+│   ├── raw/
+│   │   ├── google_drive/
+│   │   ├── local/
+│   │   └── sql/
+│   └── processed/
+├── logs/
+├── credentials/
+│   └── google_service_account.json
+└── .github/
+    └── workflows/
+        └── ci.yml

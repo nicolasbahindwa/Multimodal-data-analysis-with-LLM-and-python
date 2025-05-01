@@ -1,0 +1,42 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="data-processing-pipeline",
+    version="0.1.0",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    python_requires=">=3.8",
+    install_requires=[
+        # Core dependencies
+        "textract>=1.6.5",
+        "pandas>=2.2.3",
+        "numpy>=1.24.0",
+        "langchain>=0.3.24",
+        "python-dotenv>=1.0.0",
+        
+        # Connectors
+        "google-api-python-client>=2.169.0",
+        "google-auth-httplib2>=0.2.0",
+        "google-auth-oauthlib>=1.2.2",
+        "sqlalchemy>=2.0.40",
+        "psycopg2-binary>=2.9.10",
+        
+        # File readers
+        "pypdf>=3.9.0",
+        "python-docx>=0.8.11",
+        "openpyxl>=3.0.10",
+        "beautifulsoup4>=4.11.0",
+        "lxml>=4.9.0",
+        "python-pptx>=0.6.21",
+        "striprtf>=0.0.22",
+    ],
+    extras_require={
+        "dev": [
+            "pytest>=7.0.0",
+            "black>=22.0.0",
+            "isort>=5.12.0",
+            "flake8>=5.0.0",
+            "mypy>=0.991",
+        ]
+    },
+)
